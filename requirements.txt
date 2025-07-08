@@ -1,0 +1,43 @@
+# 基础依赖
+opencv-python>=4.5.0
+numpy>=1.21.0
+pillow>=8.0.0
+pytesseract>=0.3.8
+google-generativeai>=0.3.0
+
+# 深度学习框架
+paddlepaddle>=2.4.0
+paddleocr>=2.6.0
+tensorflow>=2.10.0
+torch>=1.12.0
+torchvision>=0.13.0
+
+# 图像处理与计算机视觉
+scikit-image>=0.19.0
+imutils>=0.5.4
+matplotlib>=3.5.0
+seaborn>=0.11.0
+albumentations>=1.3.0
+
+# Flask API部署
+flask>=2.2.0
+flask-cors>=3.0.10
+flask-restx>=1.0.0
+requests>=2.28.0
+gunicorn>=20.1.0
+
+# 监控与日志
+prometheus-client>=0.15.0
+watchdog>=2.1.0
+
+# 机器学习与数据分析
+scikit-learn>=1.1.0
+scipy>=1.9.0
+pandas>=1.5.0
+
+# 配置与工具
+pyyaml>=6.0
+tqdm>=4.64.0
+psutil>=5.9.0
+click>=8.0.0
+colorlog>=6.0.0
