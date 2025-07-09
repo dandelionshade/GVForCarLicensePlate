@@ -1,0 +1,17 @@
+# 最小车牌识别系统依赖包
+
+# 核心图像处理
+opencv-python>=4.8.0
+numpy>=1.24.0
+pillow>=10.0.0
+
+# OCR引擎 (可选)
+pytesseract>=0.3.10
+paddlepaddle>=2.5.0
+paddleocr>=2.7.0
+
+# Web框架
+flask>=2.3.0
+
+# 基础工具
+werkzeug>=2.3.0

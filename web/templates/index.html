@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>车牌识别系统</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('web.static', filename='css/style.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="fas fa-car"></i> 车牌识别系统
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="/">首页</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/upload">在线识别</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/batch">批量处理</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/monitor">系统监控</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/test">系统测试</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/api-docs">API文档</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <div class="container mt-4">
+      <!-- 系统介绍 -->
+      <div class="row">
+        <div class="col-12">
+          <div class="jumbotron bg-light p-5 rounded">
+            <h1 class="display-4">
+              <i class="fas fa-eye text-primary"></i>
+              智能车牌识别系统
+            </h1>
+            <p class="lead">
+              基于深度学习的高精度车牌识别系统，支持多种识别方法和实时处理
+            </p>
+            <hr class="my-4" />
+            <p>
+              支持多种车牌类型识别，包括蓝牌、黄牌、绿牌等，准确率高达95%以上
+            </p>
+            <a class="btn btn-primary btn-lg" href="/upload" role="button">
+              <i class="fas fa-upload"></i> 开始识别
+            </a>
+            <a
+              class="btn btn-outline-secondary btn-lg"
+              href="/api-docs"
+              role="button"
+            >
+              <i class="fas fa-book"></i> API文档
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 功能特点 -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <h2 class="text-center mb-4">功能特点</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-magic fa-3x text-primary mb-3"></i>
+              <h5 class="card-title">多算法融合</h5>
+              <p class="card-text">
+                集成多种识别算法，包括传统图像处理、深度学习和OCR技术，确保高准确率
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-bolt fa-3x text-success mb-3"></i>
+              <h5 class="card-title">实时处理</h5>
+              <p class="card-text">
+                优化的处理流程，平均识别时间小于1秒，支持批量处理和并发请求
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-cloud fa-3x text-info mb-3"></i>
+              <h5 class="card-title">云端部署</h5>
+              <p class="card-text">
+                支持容器化部署和云端API调用，提供RESTful接口，便于系统集成
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 使用统计 -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <h2 class="text-center mb-4">实时统计</h2>
+        </div>
+      </div>
+
+      <div class="row" id="stats-container">
+        <div class="col-md-3 mb-3">
+          <div class="card bg-primary text-white">
+            <div class="card-body text-center">
+              <i class="fas fa-images fa-2x mb-2"></i>
+              <h4 id="total-processed">-</h4>
+              <p class="mb-0">总处理数</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="card bg-success text-white">
+            <div class="card-body text-center">
+              <i class="fas fa-check-circle fa-2x mb-2"></i>
+              <h4 id="success-rate">-</h4>
+              <p class="mb-0">成功率</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="card bg-info text-white">
+            <div class="card-body text-center">
+              <i class="fas fa-clock fa-2x mb-2"></i>
+              <h4 id="avg-time">-</h4>
+              <p class="mb-0">平均耗时</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="card bg-warning text-white">
+            <div class="card-body text-center">
+              <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+              <h4 id="error-count">-</h4>
+              <p class="mb-0">错误次数</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 快速开始 -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <h2 class="text-center mb-4">快速开始</h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5><i class="fas fa-upload"></i> Web界面使用</h5>
+            </div>
+            <div class="card-body">
+              <ol>
+                <li>点击"在线识别"按钮</li>
+                <li>上传车牌图像文件</li>
+                <li>选择识别方法</li>
+                <li>查看识别结果</li>
+              </ol>
+              <a href="/upload" class="btn btn-primary">
+                <i class="fas fa-arrow-right"></i> 立即体验
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5><i class="fas fa-code"></i> API调用</h5>
+            </div>
+            <div class="card-body">
+              <pre><code>curl -X POST http://localhost:5000/api/recognize \
+  -F "image=@plate.jpg" \
+  -F "method=fusion"</code></pre>
+              <a href="/api-docs" class="btn btn-outline-primary">
+                <i class="fas fa-book"></i> 查看文档
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-light mt-5 py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>车牌识别系统</h5>
+            <p>基于深度学习的智能车牌识别解决方案</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <p>&copy; 2024 车牌识别系统. All rights reserved.</p>
+            <p>
+              <small>
+                <i class="fas fa-code"></i> 技术栈：Python + Flask + OpenCV +
+                TensorFlow
+              </small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('web.static', filename='js/main.js') }}"></script>
+    <script>
+      // 加载统计数据
+      loadStatistics();
+
+      // 每30秒更新一次统计数据
+      setInterval(loadStatistics, 30000);
+    </script>
+  </body>
+</html>

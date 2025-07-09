@@ -1,0 +1,180 @@
+{
+  "timestamp": "2025-07-09T13:52:33.253107",
+  "unit_tests": {
+    "config_test": {
+      "passed": false,
+      "error": "'Config' object has no attribute 'get_character_set'",
+      "execution_time": 0.01
+    },
+    "image_processing_test": {
+      "passed": true,
+      "checks": {
+        "basic_preprocessing": true,
+        "comprehensive_preprocessing": true,
+        "plate_enhancement": true,
+        "performance": true
+      },
+      "failed_checks": [],
+      "execution_time": 0.3051612377166748,
+      "results_count": 5
+    },
+    "plate_detection_test": {
+      "passed": true,
+      "checks": {
+        "contour_detection": true,
+        "color_detection": true,
+        "comprehensive_detection": true,
+        "performance": true
+      },
+      "failed_checks": [],
+      "execution_time": 0.012601137161254883,
+      "detections_count": {
+        "contour": 0,
+        "color": 0,
+        "comprehensive": 0
+      }
+    },
+    "ocr_engines_test": {
+      "passed": true,
+      "checks": {
+        "engines_available": true,
+        "recognition_result": true,
+        "performance": true
+      },
+      "failed_checks": [],
+      "execution_time": 1.048004150390625,
+      "available_engines": [
+        "tesseract"
+      ],
+      "recognition_result": {
+        "success": false,
+        "text": "",
+        "confidence": 0.0,
+        "best_engine": "",
+        "all_results": {
+          "tesseract": {
+            "text": "",
+            "confidence": 0.0,
+            "engine": "tesseract",
+            "processing_time": 1.048004150390625,
+            "available": true,
+            "error": "(1, 'Error opening data file E:\\\\application\\\\PDF24\\\\tesseract/tessdata/eng.traineddata Please make sure the TESSDATA_PREFIX environment variable is set to your \"tessdata\" directory. Failed loading language \\'eng\\' Tesseract couldn\\'t load any languages! Could not initialize tesseract.')"
+          }
+        },
+        "consensus": false,
+        "processing_time": 1.048004150390625,
+        "engines_used": [
+          "tesseract"
+        ]
+      }
+    },
+    "pass_rate": 0.75
+  },
+  "integration_tests": {
+    "end_to_end_pipeline": {
+      "passed": true,
+      "checks": {
+        "preprocessing_success": true,
+        "detection_success": true,
+        "recognition_success": true,
+        "pipeline_performance": true
+      },
+      "failed_checks": [],
+      "execution_time": 0.40100717544555664,
+      "detections_count": 1,
+      "recognition_result": {
+        "success": false,
+        "text": "",
+        "confidence": 0.0,
+        "best_engine": "",
+        "all_results": {
+          "tesseract": {
+            "text": "",
+            "confidence": 0.0,
+            "engine": "tesseract",
+            "processing_time": 0.3266298770904541,
+            "available": true,
+            "error": "(1, 'Error opening data file E:\\\\application\\\\PDF24\\\\tesseract/tessdata/eng.traineddata Please make sure the TESSDATA_PREFIX environment variable is set to your \"tessdata\" directory. Failed loading language \\'eng\\' Tesseract couldn\\'t load any languages! Could not initialize tesseract.')"
+          }
+        },
+        "consensus": false,
+        "processing_time": 0.3266298770904541,
+        "engines_used": [
+          "tesseract"
+        ]
+      }
+    },
+    "error_handling": {
+      "passed": true,
+      "error_tests": [
+        [
+          "null_image",
+          true
+        ],
+        [
+          "invalid_image",
+          true
+        ],
+        [
+          "tiny_image",
+          true
+        ]
+      ],
+      "pass_rate": 1.0,
+      "execution_time": 0.35475707054138184
+    },
+    "concurrent_processing": {
+      "passed": false,
+      "checks": {
+        "all_completed": true,
+        "no_deadlock": true,
+        "some_success": false
+      },
+      "failed_checks": [
+        "some_success"
+      ],
+      "execution_time": 1.2533328533172607,
+      "total_tasks": 5,
+      "successful_tasks": 0,
+      "success_rate": 0.0
+    },
+    "pass_rate": 0.6666666666666666
+  },
+  "performance_tests": {},
+  "stress_tests": {},
+  "accuracy_tests": {},
+  "summary": {
+    "overall_status": "WARNING",
+    "total_tests": 7,
+    "passed_tests": 5,
+    "failed_tests": 2,
+    "categories": {
+      "unit_tests": {
+        "total": 4,
+        "passed": 3,
+        "pass_rate": 0.75
+      },
+      "integration_tests": {
+        "total": 3,
+        "passed": 2,
+        "pass_rate": 0.6666666666666666
+      },
+      "performance_tests": {
+        "total": 0,
+        "passed": 0,
+        "pass_rate": 0
+      },
+      "stress_tests": {
+        "total": 0,
+        "passed": 0,
+        "pass_rate": 0
+      },
+      "accuracy_tests": {
+        "total": 0,
+        "passed": 0,
+        "pass_rate": 0
+      }
+    },
+    "overall_pass_rate": 0.7142857142857143
+  }
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>在线识别 - 车牌识别系统</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="{{ url_for('web.static', filename='css/style.css') }}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="fas fa-car"></i> 车牌识别系统
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">首页</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/upload">在线识别</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/batch">批量处理</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/monitor">系统监控</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/test">系统测试</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/api-docs">API文档</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-12">
+          <h2><i class="fas fa-upload text-primary"></i> 在线车牌识别</h2>
+          <p class="text-muted">上传车牌图像，获取识别结果</p>
+        </div>
+      </div>
+
+      <!-- 上传区域 -->
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5><i class="fas fa-image"></i> 图像上传</h5>
+            </div>
+            <div class="card-body">
+              <div id="upload-area" class="upload-area">
+                <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                <h5>拖拽图像到此处或点击选择</h5>
+                <p class="text-muted">支持 JPG, PNG, BMP 格式，最大 16MB</p>
+                <input
+                  type="file"
+                  id="file-input"
+                  accept="image/*"
+                  style="display: none"
+                />
+              </div>
+
+              <!-- 图像预览 -->
+              <div id="image-preview" style="display: none" class="mt-3"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <h5><i class="fas fa-cogs"></i> 识别设置</h5>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="method-select" class="form-label">识别方法</label>
+                <select class="form-select" id="method-select">
+                  <option value="fusion">融合识别（推荐）</option>
+                  <option value="tesseract">Tesseract OCR</option>
+                  <option value="paddleocr">PaddleOCR</option>
+                  <option value="crnn">CRNN模型</option>
+                  <option value="gemini">Gemini API</option>
+                </select>
+                <small class="form-text text-muted"
+                  >融合识别会使用多种方法并综合结果</small
+                >
+              </div>
+
+              <div class="mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="save-result"
+                    checked
+                  />
+                  <label class="form-check-label" for="save-result">
+                    保存识别结果
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="detailed-info"
+                  />
+                  <label class="form-check-label" for="detailed-info">
+                    显示详细信息
+                  </label>
+                </div>
+              </div>
+
+              <!-- 控制按钮 -->
+              <div class="d-grid gap-2">
+                <button
+                  type="button"
+                  id="recognize-btn"
+                  class="btn btn-primary btn-lg"
+                  disabled
+                >
+                  <i class="fas fa-search"></i> 开始识别
+                </button>
+                <button
+                  type="button"
+                  id="clear-btn"
+                  class="btn btn-outline-secondary"
+                >
+                  <i class="fas fa-trash"></i> 清除
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 进度条 -->
+      <div class="row mt-3">
+        <div class="col-12">
+          <div id="progress-bar" class="progress" style="display: none">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated"
+              role="progressbar"
+              style="width: 0%"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 结果显示 -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div id="results-container" style="display: none"></div>
+        </div>
+      </div>
+
+      <!-- 使用提示 -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="alert alert-info">
+            <h6><i class="fas fa-info-circle"></i> 使用提示</h6>
+            <ul class="mb-0">
+              <li>为获得最佳识别效果，请确保图像清晰，车牌区域占比适中</li>
+              <li>支持各种车牌类型：蓝牌、黄牌、绿牌、白牌等</li>
+              <li>融合识别模式会使用多种算法，识别时间稍长但准确率更高</li>
+              <li>如果识别结果不准确，可以尝试不同的识别方法</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('web.static', filename='js/main.js') }}"></script>
+  </body>
+</html>
