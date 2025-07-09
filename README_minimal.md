@@ -1,23 +1,48 @@
 # 车牌识别系统 - 简化版本
 
-最小可行的车牌识别系统，包含Web界面和命令行工具。
+最小可行的车牌识别系统，包含Web界面、图片库管理和命令行工具。
 
 ## 核心功能
 
-- 车牌区域检测
-- 多OCR引擎识别（Tesseract、PaddleOCR）
-- Web界面上传识别
-- 命令行批处理
-- API接口
+- 🔍 车牌区域检测
+- 🤖 多OCR引擎识别（Tesseract、PaddleOCR）
+- 🌐 Web界面上传识别
+- 📸 图片库管理
+- ⚡ 批量处理工具
+- 📊 识别结果保存
+- 🛠️ API接口
 
-## 文件结构
+## 项目结构
 
+```text
+├── simple_app.py              # 主应用文件（Web + API）
+├── cli_simple.py             # 命令行工具
+├── batch_recognition.py      # 批量识别工具
+├── generate_test_images.py   # 测试图片生成工具
+├── requirements_minimal.txt  # 最小依赖包
+├── README_minimal.md         # 说明文档
+└── data/                     # 数据目录
+    ├── test_images/          # 测试图片库 ⭐
+    ├── uploads/              # 上传的图片
+    └── results/              # 识别结果
 ```
-├── simple_app.py           # 主应用文件（Web + API）
-├── cli_simple.py          # 命令行工具
-├── requirements_minimal.txt # 最小依赖包
-└── README_minimal.md      # 说明文档
-```
+
+## 图片管理方案
+
+### 📁 推荐的图片存放位置
+
+1. **测试图片库**: `data/test_images/`
+   - 存放用于测试的车牌图片
+   - 支持常见格式：JPG、PNG、BMP、TIFF等
+   - Web界面可直接浏览和识别
+
+2. **上传图片**: `data/uploads/`
+   - 自动保存用户上传的图片
+   - 按时间戳命名，避免重复
+
+3. **识别结果**: `data/results/`
+   - 保存识别结果的JSON文件
+   - 包含完整的识别信息和时间戳
 
 ## 快速开始
 
